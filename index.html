@@ -6,21 +6,73 @@
     <title>Lancer Social</title>
   </head>
   <body>
-    <h1>Lancer Social</h1>
+    <header>
+      <img src="/logo.png" width="68" height="68" alt="Lancer Social Logo" />
+      <h1>Lancer Social</h1>
+      <button>Make a post</button>
+    </header>
 
-    <ul>
-      <li>
-        <p>
-          Finally got my acceptance to the nursing program :)
-          <span>#admissions</span>
-        </p>
-      </li>
-      <li>
-        <p>
-          Pickup Soccer on Lancer Field 6pm Today!
-          <span>#event</span>
-        </p>
-      </li>
-    </ul>
+    <form>
+      <input type="text" placeholder="Share something..." />
+      <span>200</span>
+      <input type="text" placeholder="Trustworthy Link" />
+      <select>
+        <option value="">Choose category:</option>
+        <option value="social">Social</option>
+        <option value="advice">Advice</option>
+      </select>
+      <button>Post</button>
+    </form>
+
+    <main>
+      <aside>
+        <ul>
+          <li>
+            <button>All</button>
+          </li>
+          <li>
+            <button>Social</button>
+          </li>
+          <li>
+            <button>Advice</button>
+          </li>
+        </ul>
+      </aside>
+
+      <section>
+        <ul>
+          <li>
+            <p>
+              Finally got my acceptance to the nursing program :)
+              <a href="https://www.google.com/" target="_blank"
+                >(Link if applicable)</a
+              >
+              <span>#admissions</span>
+            </p>
+
+            <div>
+              <button>👍<strong>24</strong></button>
+              <button>😐<strong>9</strong></button>
+              <button>👎<strong>4</strong></button>
+            </div>
+          </li>
+
+          <li>
+            <p>
+              Pickup Soccer on Lancer Field 6pm Today!
+              <a href="https://www.google.com/" target="_blank"
+                >(Link if applicable)</a
+              >
+              <span>#event</span>
+            </p>
+            <div>
+              <button>👍<strong>54</strong></button>
+              <button>😐<strong>10</strong></button>
+              <button>👎<strong>6</strong></button>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
   </body>
 </html>
