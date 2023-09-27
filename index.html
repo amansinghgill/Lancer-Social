@@ -20,13 +20,13 @@
         <div class="logo">
           <img
             src="/logo.png"
-            width="68"
-            height="68"
+            width="75"
+            height="150"
             alt="Lancer Social Logo"
           />
           <h1>Lancer Social</h1>
         </div>
-        <button>Make a post</button>
+        <button class="btn btn-large">Make a post</button>
       </header>
 
       <form class="post-form">
@@ -38,20 +38,30 @@
           <option value="social">Social</option>
           <option value="advice">Advice</option>
         </select>
-        <button>Post</button>
+        <button class="btn btn-large">Post</button>
       </form>
 
       <main class="main">
         <aside>
           <ul>
-            <li>
-              <button>All</button>
+            <li class="category">
+              <button class="btn btn-all-categories">All</button>
             </li>
-            <li>
-              <button>Social</button>
+            <li class="category">
+              <button
+                class="btn btn-category"
+                style="background-color: #16a34a"
+              >
+                Social
+              </button>
             </li>
-            <li>
-              <button>Advice</button>
+            <li class="category">
+              <button
+                class="btn btn-category"
+                style="background-color: #ef4444"
+              >
+                Advice
+              </button>
             </li>
           </ul>
         </aside>
@@ -61,32 +71,32 @@
             <li class="post">
               <p>
                 Finally got my acceptance to the nursing program :)
-                <a href="https://www.google.com/" target="_blank"
+                <a class="link" href="https://www.google.com/" target="_blank"
                   >(Link if applicable)</a
                 >
               </p>
               <span class="tag" style="background-color: #8b5cf6"
-                >#admissions</span
+                >admissions</span
               >
               <div class="vote-buttons">
-                <button>👍<strong>24</strong></button>
-                <button>😐<strong>9</strong></button>
-                <button>👎<strong>4</strong></button>
+                <button>👍24</button>
+                <button>😐9</button>
+                <button>👎4</button>
               </div>
             </li>
 
             <li class="post">
               <p>
                 Pickup Soccer on Lancer Field 6pm Today!
-                <a href="https://www.google.com/" target="_blank"
+                <a class="link" href="https://www.google.com/" target="_blank"
                   >(Link if applicable)</a
                 >
               </p>
-              <span class="tag" style="background-color: #db2777">#event</span>
+              <span class="tag" style="background-color: #db2777">event</span>
               <div class="vote-buttons">
-                <button>👍<strong>54</strong></button>
-                <button>😐<strong>10</strong></button>
-                <button>👎<strong>6</strong></button>
+                <button>👍54</button>
+                <button>😐10</button>
+                <button>👎6</button>
               </div>
             </li>
           </ul>
