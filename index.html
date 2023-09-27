@@ -15,73 +15,83 @@
     <title>Lancer Social</title>
   </head>
   <body>
-    <header class="header">
-      <img src="/logo.png" width="68" height="68" alt="Lancer Social Logo" />
-      <h1>Lancer Social</h1>
-      <button>Make a post</button>
-    </header>
+    <div class="container">
+      <header class="header">
+        <div class="logo">
+          <img
+            src="/logo.png"
+            width="68"
+            height="68"
+            alt="Lancer Social Logo"
+          />
+          <h1>Lancer Social</h1>
+        </div>
+        <button>Make a post</button>
+      </header>
 
-    <form class="post-form">
-      <input type="text" placeholder="Share something..." />
-      <span>200</span>
-      <input type="text" placeholder="Trustworthy Link" />
-      <select>
-        <option value="">Choose category:</option>
-        <option value="social">Social</option>
-        <option value="advice">Advice</option>
-      </select>
-      <button>Post</button>
-    </form>
+      <form class="post-form">
+        <input type="text" placeholder="Share something..." />
+        <span>200</span>
+        <input type="text" placeholder="Trustworthy Link" />
+        <select>
+          <option value="">Choose category:</option>
+          <option value="social">Social</option>
+          <option value="advice">Advice</option>
+        </select>
+        <button>Post</button>
+      </form>
 
-    <main>
-      <aside>
-        <ul>
-          <li>
-            <button>All</button>
-          </li>
-          <li>
-            <button>Social</button>
-          </li>
-          <li>
-            <button>Advice</button>
-          </li>
-        </ul>
-      </aside>
+      <main class="main">
+        <aside>
+          <ul>
+            <li>
+              <button>All</button>
+            </li>
+            <li>
+              <button>Social</button>
+            </li>
+            <li>
+              <button>Advice</button>
+            </li>
+          </ul>
+        </aside>
 
-      <section>
-        <ul>
-          <li class="post">
-            <p>
-              Finally got my acceptance to the nursing program :)
-              <a href="https://www.google.com/" target="_blank"
-                >(Link if applicable)</a
+        <section>
+          <ul>
+            <li class="post">
+              <p>
+                Finally got my acceptance to the nursing program :)
+                <a href="https://www.google.com/" target="_blank"
+                  >(Link if applicable)</a
+                >
+              </p>
+              <span class="tag" style="background-color: #8b5cf6"
+                >#admissions</span
               >
-              <span class="tag">#admissions</span>
-            </p>
+              <div class="vote-buttons">
+                <button>👍<strong>24</strong></button>
+                <button>😐<strong>9</strong></button>
+                <button>👎<strong>4</strong></button>
+              </div>
+            </li>
 
-            <div>
-              <button>👍<strong>24</strong></button>
-              <button>😐<strong>9</strong></button>
-              <button>👎<strong>4</strong></button>
-            </div>
-          </li>
-
-          <li class="post">
-            <p>
-              Pickup Soccer on Lancer Field 6pm Today!
-              <a href="https://www.google.com/" target="_blank"
-                >(Link if applicable)</a
-              >
-              <span class="tag">#event</span>
-            </p>
-            <div>
-              <button>👍<strong>54</strong></button>
-              <button>😐<strong>10</strong></button>
-              <button>👎<strong>6</strong></button>
-            </div>
-          </li>
-        </ul>
-      </section>
-    </main>
+            <li class="post">
+              <p>
+                Pickup Soccer on Lancer Field 6pm Today!
+                <a href="https://www.google.com/" target="_blank"
+                  >(Link if applicable)</a
+                >
+              </p>
+              <span class="tag" style="background-color: #db2777">#event</span>
+              <div class="vote-buttons">
+                <button>👍<strong>54</strong></button>
+                <button>😐<strong>10</strong></button>
+                <button>👎<strong>6</strong></button>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
   </body>
 </html>

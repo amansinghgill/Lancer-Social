@@ -8,17 +8,45 @@ body {
   background-color: #292524;
   color: #fafaf9;
   font-family: "Sono", sans-serif;
-  padding: 40px;
+  padding: 48px 64px;
 }
 
+/* Main Layout */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
 .header {
   margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .post-form {
   background-color: #44403c;
   margin-bottom: 40px;
   padding: 16px 40px;
+  text-align: center;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 48px;
+}
+
+/* Elements */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo img {
+  width: 68 px;
+  height: 68px;
 }
 
 h1 {
@@ -26,6 +54,8 @@ h1 {
   text-transform: uppercase;
   text-align: center;
   font-family: "Coiny", sans-serif;
+  line-height: 1;
+  margin-top: 6px;
 }
 
 .post {
@@ -35,12 +65,23 @@ h1 {
   background-color: #44403c;
   margin-bottom: 16px;
   padding: 16px 24px;
+  letter-spacing: -1px;
+
+  display: flex;
+  align-items: center;
 }
 
 .tag {
   text-transform: uppercase;
   font-size: 14px;
   font-family: "Coiny", sans-serif;
+  padding-top: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.vote-buttons {
+  margin-left: auto;
 }
 
 ul {
