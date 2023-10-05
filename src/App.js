@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./style.css";
 
 const initialPosts = [
@@ -31,25 +32,12 @@ const initialPosts = [
 ];
 
 function App() {
-  const appTitle = "Lancer Social";
+  const [showForm, setShowForm] = useState(false);
 
   return (
     <>
-      {/* HEADER  */}
-      <header className="header">
-        <div className="logo">
-          <img
-            src="logo.png"
-            width="75"
-            height="100"
-            alt="Lancer Social Logo"
-          />
-          <h1>{appTitle}</h1>
-        </div>
-        <button className="btn btn-large btn-open">Make a post</button>
-      </header>
-
-      <NewPostForm />
+      <Header showForm={showForm} setShowForm={setShowForm} />
+      {showForm ? <NewPostForm /> : null}
 
       <main className="main">
         <CategoryFilter />
@@ -59,8 +47,23 @@ function App() {
   );
 }
 
-function NewPostForm() {
-  return <form className="post-form">Post Form</form>;
+function Header({ showForm, setShowForm }) {
+  const appTitle = "Lancer Social";
+
+  return (
+    <header className="header">
+      <div className="logo">
+        <img src="logo.png" width="75" height="100" alt="Lancer Social Logo" />
+        <h1>{appTitle}</h1>
+      </div>
+      <button
+        className="btn btn-large btn-open"
+        onClick={() => setShowForm((show) => !show)}
+      >
+        {showForm ? "Close" : "Make a post"}
+      </button>
+    </header>
+  );
 }
 
 const CATEGORIES = [
@@ -73,6 +76,42 @@ const CATEGORIES = [
   { name: "humour", color: "#f97316" },
   { name: "admissions", color: "#8b5cf6" },
 ];
+
+function NewPostForm() {
+  const [text, setText] = useState("");
+  const [source, setSource] = useState("");
+  const [category, setCategory] = useState("");
+  const textLength = text.length;
+
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
+
+  return (
+    <form className="post-form" onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Share something..."
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <span>{200 - textLength}</span>
+      <input
+        value={source}
+        type="text"
+        placeholder="Trustworthy Link"
+        onChange={(e) => setSource(e.target.value)}
+      />
+      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+        <option value="">Choose category:</option>
+        {CATEGORIES.map((cat) => (
+          <option value={cat.name}>{cat.name.toUpperCase()}</option>
+        ))}
+      </select>
+      <button className="btn btn-large">Post</button>
+    </form>
+  );
+}
 
 function CategoryFilter() {
   return (
