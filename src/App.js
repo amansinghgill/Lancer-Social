@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import supabase from "./supabase";
 import "./style.css";
 
 const initialPosts = [
@@ -33,15 +34,26 @@ const initialPosts = [
 
 function App() {
   const [showForm, setShowForm] = useState(false);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(function () {
+    async function getPosts() {
+      const { data: posts, error } = await supabase.from("posts").select("*");
+      setPosts(posts);
+    }
+    getPosts();
+  }, []);
 
   return (
     <>
       <Header showForm={showForm} setShowForm={setShowForm} />
-      {showForm ? <NewPostForm /> : null}
+      {showForm ? (
+        <NewPostForm setPosts={setPosts} setShowForm={setShowForm} />
+      ) : null}
 
       <main className="main">
         <CategoryFilter />
-        <PostList />
+        <PostList posts={posts} />
       </main>
     </>
   );
@@ -77,14 +89,50 @@ const CATEGORIES = [
   { name: "admissions", color: "#8b5cf6" },
 ];
 
-function NewPostForm() {
+function isValidHttpUrl(string) {
+  let url;
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
+function NewPostForm({ setPosts, setShowForm }) {
   const [text, setText] = useState("");
-  const [source, setSource] = useState("");
+  const [link, setLink] = useState("");
   const [category, setCategory] = useState("");
   const textLength = text.length;
 
   function handleSubmit(e) {
+    // Prevent browser reload
     e.preventDefault();
+
+    // Check if data is valid. If so, create a new post
+    if (text && isValidHttpUrl(link) && category && textLength <= 200) {
+      // Create a new post object
+      const newPost = {
+        id: Math.round(Math.random() * 10000),
+        text,
+        link,
+        category,
+        votesUp: 0,
+        votesMid: 0,
+        votesDown: 0,
+      };
+
+      // Add the new post to the UI: add the post to state
+      setPosts((posts) => [newPost, ...posts]);
+
+      // Reset input fields
+      setText("");
+      setLink("");
+      setCategory("");
+
+      // Close the form
+      setShowForm(false);
+    }
   }
 
   return (
@@ -97,10 +145,10 @@ function NewPostForm() {
       />
       <span>{200 - textLength}</span>
       <input
-        value={source}
+        value={link}
         type="text"
         placeholder="Trustworthy Link"
-        onChange={(e) => setSource(e.target.value)}
+        onChange={(e) => setLink(e.target.value)}
       />
       <select value={category} onChange={(e) => setCategory(e.target.value)}>
         <option value="">Choose category:</option>
@@ -135,11 +183,7 @@ function CategoryFilter() {
   );
 }
 
-function PostList() {
-  //TEMPORARY
-
-  const posts = initialPosts;
-
+function PostList({ posts }) {
   return (
     <section>
       <ul className="posts-list">
