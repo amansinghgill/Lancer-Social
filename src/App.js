@@ -35,14 +35,30 @@ const initialPosts = [
 function App() {
   const [showForm, setShowForm] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState("all");
 
-  useEffect(function () {
-    async function getPosts() {
-      const { data: posts, error } = await supabase.from("posts").select("*");
-      setPosts(posts);
-    }
-    getPosts();
-  }, []);
+  useEffect(
+    function () {
+      async function getPosts() {
+        setIsLoading(true);
+
+        let query = supabase.from("posts").select("*");
+
+        if (currentCategory != "all")
+          query = query.eq("category", currentCategory);
+
+        const { data: posts, error } = await query
+          .order("votesUp", { ascending: false })
+          .limit(1000);
+        if (!error) setPosts(posts);
+        else alert("There was a problem getting data");
+        setIsLoading(false);
+      }
+      getPosts();
+    },
+    [currentCategory]
+  );
 
   return (
     <>
@@ -52,11 +68,15 @@ function App() {
       ) : null}
 
       <main className="main">
-        <CategoryFilter />
-        <PostList posts={posts} />
+        <CategoryFilter setCurrentCategory={setCurrentCategory} />
+        {isLoading ? <Loader /> : <PostList posts={posts} />}
       </main>
     </>
   );
+}
+
+function Loader() {
+  return <p className="message">Loading...</p>;
 }
 
 function Header({ showForm, setShowForm }) {
@@ -103,34 +123,43 @@ function NewPostForm({ setPosts, setShowForm }) {
   const [text, setText] = useState("");
   const [link, setLink] = useState("");
   const [category, setCategory] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
   const textLength = text.length;
 
-  function handleSubmit(e) {
-    // Prevent browser reload
+  async function handleSubmit(e) {
+    // 1. Prevent browser reload
     e.preventDefault();
 
-    // Check if data is valid. If so, create a new post
+    // 2. Check if data is valid. If so, create a new post
     if (text && isValidHttpUrl(link) && category && textLength <= 200) {
-      // Create a new post object
-      const newPost = {
-        id: Math.round(Math.random() * 10000),
-        text,
-        link,
-        category,
-        votesUp: 0,
-        votesMid: 0,
-        votesDown: 0,
-      };
+      // 3. Create a new post object
+      // const newPost = {
+      //   id: Math.round(Math.random() * 10000),
+      //   text,
+      //   link,
+      //   category,
+      //   votesUp: 0,
+      //   votesMid: 0,
+      //   votesDown: 0,
+      // };
 
-      // Add the new post to the UI: add the post to state
-      setPosts((posts) => [newPost, ...posts]);
+      // 3. Upload a post to Supabase and recieve the new post object
+      setIsUploading(true);
+      const { data: newPost, error } = await supabase
+        .from("posts")
+        .insert([{ text, link, category }])
+        .select();
+      setIsUploading(false);
 
-      // Reset input fields
+      // 4. Add the new post to the UI: add the post to state
+      setPosts((posts) => [newPost[0], ...posts]);
+
+      // 5. Reset input fields
       setText("");
       setLink("");
       setCategory("");
 
-      // Close the form
+      // 6. Close the form
       setShowForm(false);
     }
   }
@@ -142,6 +171,7 @@ function NewPostForm({ setPosts, setShowForm }) {
         placeholder="Share something..."
         value={text}
         onChange={(e) => setText(e.target.value)}
+        disabled={isUploading}
       />
       <span>{200 - textLength}</span>
       <input
@@ -149,30 +179,43 @@ function NewPostForm({ setPosts, setShowForm }) {
         type="text"
         placeholder="Trustworthy Link"
         onChange={(e) => setLink(e.target.value)}
+        disabled={isUploading}
       />
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        disabled={isUploading}
+      >
         <option value="">Choose category:</option>
         {CATEGORIES.map((cat) => (
           <option value={cat.name}>{cat.name.toUpperCase()}</option>
         ))}
       </select>
-      <button className="btn btn-large">Post</button>
+      <button className="btn btn-large" disabled={isUploading}>
+        Post
+      </button>
     </form>
   );
 }
 
-function CategoryFilter() {
+function CategoryFilter({ setCurrentCategory }) {
   return (
     <aside>
       <ul>
         <li className="category">
-          <button className="btn btn-all-categories">All</button>
+          <button
+            className="btn btn-all-categories"
+            onClick={() => setCurrentCategory("all")}
+          >
+            All
+          </button>
         </li>
         {CATEGORIES.map((cat) => (
           <li key={cat.name} className="category">
             <button
               className="btn btn-category"
               style={{ backgroundColor: cat.color }}
+              onClick={() => setCurrentCategory(cat.name)}
             >
               {cat.name}
             </button>
@@ -184,6 +227,13 @@ function CategoryFilter() {
 }
 
 function PostList({ posts }) {
+  if (posts.length === 0)
+    return (
+      <p className="message">
+        No posts for this category yet! Create the first one ✌️
+      </p>
+    );
+
   return (
     <section>
       <ul className="posts-list">
