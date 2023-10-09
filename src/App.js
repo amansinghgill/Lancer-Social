@@ -69,7 +69,11 @@ function App() {
 
       <main className="main">
         <CategoryFilter setCurrentCategory={setCurrentCategory} />
-        {isLoading ? <Loader /> : <PostList posts={posts} />}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <PostList posts={posts} setPosts={setPosts} />
+        )}
       </main>
     </>
   );
@@ -152,7 +156,7 @@ function NewPostForm({ setPosts, setShowForm }) {
       setIsUploading(false);
 
       // 4. Add the new post to the UI: add the post to state
-      setPosts((posts) => [newPost[0], ...posts]);
+      if (!error) setPosts((posts) => [newPost[0], ...posts]);
 
       // 5. Reset input fields
       setText("");
@@ -226,7 +230,7 @@ function CategoryFilter({ setCurrentCategory }) {
   );
 }
 
-function PostList({ posts }) {
+function PostList({ posts, setPosts }) {
   if (posts.length === 0)
     return (
       <p className="message">
@@ -238,14 +242,31 @@ function PostList({ posts }) {
     <section>
       <ul className="posts-list">
         {posts.map((post) => (
-          <Post key={post.id} post={post} />
+          <Post key={post.id} post={post} setPosts={setPosts} />
         ))}
       </ul>
     </section>
   );
 }
 
-function Post({ post }) {
+function Post({ post, setPosts }) {
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  async function handleVote(columnName) {
+    setIsUpdating(true);
+    const { data: updatedPost, error } = await supabase
+      .from("posts")
+      .update({ [columnName]: post[columnName] + 1 })
+      .eq("id", post.id)
+      .select();
+    setIsUpdating(false);
+
+    if (!error)
+      setPosts((posts) =>
+        posts.map((f) => (f.id === post.id ? updatedPost[0] : f))
+      );
+  }
+
   return (
     <li className="post">
       <p>
@@ -264,9 +285,15 @@ function Post({ post }) {
         {post.category}
       </span>
       <div className="vote-buttons">
-        <button>👍{post.votesUp}</button>
-        <button>😐{post.votesMid}</button>
-        <button>👎{post.votesDown}</button>
+        <button onClick={() => handleVote("votesUp")} disabled={isUpdating}>
+          👍 {post.votesUp}
+        </button>
+        <button onClick={() => handleVote("votesMid")} disabled={isUpdating}>
+          😐 {post.votesMid}
+        </button>
+        <button onClick={() => handleVote("votesDown")} disabled={isUpdating}>
+          👎 {post.votesDown}
+        </button>
       </div>
     </li>
   );
