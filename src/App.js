@@ -135,7 +135,7 @@ function NewPostForm({ setPosts, setShowForm }) {
     e.preventDefault();
 
     // 2. Check if data is valid. If so, create a new post
-    if (text && isValidHttpUrl(link) && category && textLength <= 200) {
+    if (text && category && textLength <= 200) {
       // 3. Create a new post object
       // const newPost = {
       //   id: Math.round(Math.random() * 10000),
@@ -181,7 +181,7 @@ function NewPostForm({ setPosts, setShowForm }) {
       <input
         value={link}
         type="text"
-        placeholder="Trustworthy Link"
+        placeholder="Link (Optional)"
         onChange={(e) => setLink(e.target.value)}
         disabled={isUploading}
       />
@@ -253,6 +253,13 @@ function Post({ post, setPosts }) {
   const [isUpdating, setIsUpdating] = useState(false);
 
   async function handleVote(columnName) {
+    const hasVoted = localStorage.getItem(`voted_${post.id}`);
+
+    if (hasVoted) {
+      alert("You have already voted on this post.");
+      return;
+    }
+
     setIsUpdating(true);
     const { data: updatedPost, error } = await supabase
       .from("posts")
@@ -265,6 +272,8 @@ function Post({ post, setPosts }) {
       setPosts((posts) =>
         posts.map((f) => (f.id === post.id ? updatedPost[0] : f))
       );
+
+    localStorage.setItem(`voted_${post.id}`, "true");
   }
 
   return (
