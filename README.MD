@@ -1,4 +1,6 @@
-# Lancer Social
+
+#  <img src="https://github.com/amansinghgill/Lancer-Social/assets/90486946/a4241c2c-f1ad-4b60-8d92-13158d7069f4" alt="Logo" width="45px" align="left" style="margin: 0; padding: 0;"> Lancer Social
+
 
 ## Overview
 
@@ -7,6 +9,8 @@ Lancer Social is a mock anonymous social media platform designed for the student
 ### Visit the App
 
 Deployed at: [Lancer Social](https://lancersocial.netlify.app/)
+
+<img src="https://github.com/amansinghgill/Lancer-Social/assets/90486946/ad58acaa-68ce-4097-a594-9b6e9f57f0e9" alt="UI" width="600px" style="margin: 0 auto; display: block;">
 
 ## Features
 
