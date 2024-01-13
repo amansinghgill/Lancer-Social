@@ -33,7 +33,12 @@ function Post({ post, setPosts }) {
     <li className="post">
       <p>
         {post.text}
-        <a className="link" href={post.link} target="_blank">
+        <a
+          className="link"
+          href={post.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           (Link)
         </a>
       </p>
