@@ -28,7 +28,7 @@ Deployed at: [Lancer Social](https://lancersocial.netlify.app/)
 
 ## Local Development
 1. **Clone the Repository**: 
-   Use `git clone [repository-url]` to clone the project to your local machine. Replace `[repository-url]` with the URL of your repository.
+   Use `git clone https://github.com/amansinghgill/Lancer-Social` to clone the project to your local machine. 
 
 2. **Install Dependencies**: 
    Navigate to your project directory and run `npm install` to install all necessary dependencies.
